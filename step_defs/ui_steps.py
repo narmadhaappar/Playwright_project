@@ -8,8 +8,8 @@ scenarios('../features/ui.feature/ui.feature')
 
 @pytest.fixture
 def home():
-    with sync_playwright() as playwright:
-     browser = playwright.chromium.launch(headless=True)
+    with sync_playwright() as p:
+     browser = p.chromium.launch(headless=True)
      page = browser.new_page()
      home_page = HomePage(page)
      yield home_page
@@ -18,6 +18,7 @@ def home():
 @given('I navigate to the Amazon Home Page')
 def navigate_to_home_page(home):
     home.navigate_to_homepage()
+    print("Navigated----")
 
 
 @then('I should see navigation elements')
@@ -26,7 +27,7 @@ def verify_navigation_elements(home):
 
 @then('I take screenshot of the full Page')
 def take_screenshot(home):
-    home.utils.take_screenshot(home.page, 'full_page_screenshot.png')
+    home.take_screenshot(home.page, 'full_page_screenshot.png')
 
 @when('I click on the Category menu')
 def click_category_menu(home):

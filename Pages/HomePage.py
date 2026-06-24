@@ -1,37 +1,37 @@
 from utils.common_utils import common_utils
-
-
+from playwright.sync_api import expect
 class HomePage:
-    def __init__(self, page=None):
+    def __init__(self, page):
         self.page = page
-        self.utils = common_utils(self.page)
-        self.logo = self.page.locator('a#nav-logo-sprites')
-        self.search_box = self.page.locator('input#twotabsearchtextbox')
-        self.search_button = self.page.locator('input#nav-search-submit-button')
-        self.category_menu = self.page.locator('a#nav-hamburger-menu')
 
-    def navigate_to_homepage(self):
-        self.page.goto("https://www.amazon.in/")
+    def navigate_to_homepage(self):       
+        self.page.goto("https://www.amazon.in/", wait_until="domcontentloaded",timeout=10000)
+        self.page.screenshot(path="homepage_screenshot1.png", full_page=True)
+        continue_btn = self.page.get_by_role("button", name="Continue shopping")
+        continue_btn.click()
+        self.page.screenshot(path="homepage_screenshot_new1.png", full_page=True)
 
     def verify_navigation_elements(self):
-        self.utils.is_element_visible(self.logo)
-        self.utils.is_element_visible(self.search_box)
+        print(self.page.url)
+        assert self.page.locator("#nav-search").is_visible()
+        assert self.page.locator("#twotabsearchtextbox").is_visible()
 
     def click_category_menu(self):
-        self.utils.click_element(self.category_menu)
-        self.utils.click(self.page.locator("text=Mobiles"))
+        self.page.locator("#nav-hamburger-menu").click()
+        self.page.wait_for_timeout(2000)  # Wait for the menu to open
 
     def search_for_product(self, product_name):
-        self.utils.type_text(self.search_box, product_name)
-        self.utils.click_element(self.search_button)
+        self.page.wait_for_selector("#twotabsearchtextbox")
+        self.page.fill("#twotabsearchtextbox", product_name)
+        self.page.keyboard.press("Enter")
 
     def verify_category_page(self):
-        # Add an assertion here for the category page title or header
-        self.utils.is_element_visible(self.page.locator('text=Mobiles'))
-
+        assert self.page.locator("#hmenu-content").is_visible()
     def verify_search_results(self):
-        # Add an assertion here for search results presence
-        self.utils.is_element_visible(self.page.locator('div.s-main-slot'))
+        assert "mobiles" in self.page.url.lower()   
+
+    def take_screenshot(self, page, filename):
+        page.screenshot(path=filename, full_page=True) 
 
    
         
