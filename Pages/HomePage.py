@@ -19,7 +19,7 @@ class HomePage:
 
     def click_category_menu(self):
         self.utils.click_element(self.category_menu)
-        self.utils.click("text=Mobiles")
+        self.utils.click(self.page.locator("text=Mobiles"))
 
     def search_for_product(self, product_name):
         self.utils.type_text(self.search_box, product_name)
