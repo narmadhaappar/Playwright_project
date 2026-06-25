@@ -3,16 +3,19 @@ from pytest_bdd import scenarios, given, when, then
 from playwright.sync_api import sync_playwright
 from Pages.HomePage import HomePage
 
-scenarios('../features/ui.feature/ui.feature')
+scenarios('../features/Feature/ui.feature')
 
 
 @pytest.fixture
 def home():
-    with sync_playwright() as p:
+    with sync_playwright() as p:    
      browser = p.chromium.launch(headless=True)
+     #context = browser.new_context(record_video_dir="videos/")
+     #page = context.new_page()
      page = browser.new_page()
      home_page = HomePage(page)
      yield home_page
+     #context.close()
      browser.close()
 
 @given('I navigate to the Amazon Home Page')
