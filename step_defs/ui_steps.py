@@ -40,9 +40,9 @@ def click_category_menu(home):
 def verify_category_page(home):
     home.verify_category_page()
 
-@when('I Search for the product "mobiles"')
+@when('I search for a product')
 def search_for_product(home):
-    home.search_for_product("mobiles")
+    home.search_for_product("mobile")
 
 @then('I should see search results')
 def verify_search_results(home):

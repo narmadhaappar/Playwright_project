@@ -2,7 +2,7 @@ from pytest_bdd import scenarios, given, when, then
 from utils.data_generator import DataGenerator
 from utils.api_utils import APIUtils
 
-scenarios('../features/ui.feature/api.feature')
+scenarios('../features/Feature/api.feature')
 
 @given('user has generated resource data')
 def generated_resource_data(context):

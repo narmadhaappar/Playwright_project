@@ -32,7 +32,10 @@ class HomePage:
 
 
     def verify_search_results(self):
-        assert "mobiles" in self.page.url.lower()   
+        first_result = self.page.locator("//div[@data-component-type='s-search-result']").first
+        product_name=first_result.text_content()
+        print("First search result product name:", product_name)
+        assert "mobile" in product_name.lower()  
 
     def take_screenshot(self, page, filename):
         page.screenshot(path=filename, full_page=True) 

@@ -14,6 +14,6 @@ And I take screenshot of the full Page
 
 Scenario: Search functionality
 Given I navigate to the Amazon Home Page
-When I Search for the product "mobiles"
+When I search for a product
 Then I should see search results 
 And I take screenshot of the full Page
