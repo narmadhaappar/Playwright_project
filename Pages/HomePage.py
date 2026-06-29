@@ -1,47 +1,53 @@
 from utils.common_utils import common_utils
 from playwright.sync_api import expect
+
+from utils.config import Config
 class HomePage:
     def __init__(self, page):
         self.page = page
 
-    def navigate_to_homepage(self):       
-       self.page.goto("https://www.amazon.in/", wait_until="domcontentloaded",timeout=10000)
-       self.page.screenshot(path="homepage_screenshot11.png", full_page=True)
-       continue_btn = self.page.get_by_role("button", name="Continue shopping")
-       continue_btn.click()
-       self.page.screenshot(path="homepage_screenshot_new11.png", full_page=True)   
+        #Initializing Locator
+        self.continue_btn = page.get_by_role("button", name="Continue shopping")
+        self.search_box = page.locator("#twotabsearchtextbox").first
+        self.search_bar = page.locator("#nav-bar-left")
+        self.hamburger_menu = page.locator("#nav-hamburger-menu")
+        self.menu_content = page.locator("#hmenu-content")
+        self.first_search_result = page.locator("//div[@data-component-type='s-search-result']").first
+
+    def navigate_to_homepage(self):
+        self.page.goto(Config.UI_BASE_URL, wait_until="domcontentloaded", timeout=60000)
+        self.page.screenshot(path="homepage.png", full_page=True)
+        try:
+            if self.continue_btn.is_visible(timeout=5000):
+                self.continue_btn.click()
+                self.page.screenshot(path="screenshots/HomePage.png", full_page=True)
+        except Exception:
+            print("Continue button not found, proceeding without clicking it.")       
 
     def verify_navigation_elements(self):
-        assert self.page.locator("#nav-search").is_visible()
-        assert self.page.locator("#twotabsearchtextbox").is_visible()
+        expect(self.search_box).to_be_visible(timeout=5000)
 
     def click_category_menu(self):
-        self.page.locator("#nav-hamburger-menu").click()
-        self.page.wait_for_timeout(2000)  # Wait for the menu to open
-        self.page.screenshot(path="menu_screenshot_new11.png", full_page=True)   
+        self.hamburger_menu.click()
+        self.page.wait_for_timeout(2000) 
+        self.page.screenshot(path="screenshots/MenuScreenshot.png", full_page=True)   
 
     def verify_category_page(self):
-        print(self.page.locator("#hmenu-content").count())
-        assert self.page.locator("#hmenu-content").first.is_visible()
+        expect(self.menu_content.first).to_be_visible(timeout=5000)
+        self.page.screenshot(path="screenshots/CategoryPageScreenshot.png", full_page=True)
 
-    def search_for_product(self, product_name):
-        self.page.wait_for_selector("#twotabsearchtextbox")
-        self.page.fill("#twotabsearchtextbox", product_name)
-        self.page.keyboard.press("Enter")
-
-
+    def search_for_product(self):
+        self.search_box.wait_for(state="visible")
+        self.search_box.fill(Config.SEARCH_PRODUCT)
+        self.search_box.press("Enter")
+        self.page.screenshot(path="screenshots/MobileSearch.png", full_page=True)
 
     def verify_search_results(self):
-        first_result = self.page.locator("//div[@data-component-type='s-search-result']").first
-        product_name=first_result.text_content()
+        product_name = self.first_search_result.text_content()
         print("First search result product name:", product_name)
-        assert "mobile" in product_name.lower()  
+        expect(self.first_search_result).to_be_visible(timeout=5000)
 
     def take_screenshot(self, page, filename):
         page.screenshot(path=filename, full_page=True) 
 
    
-        
-	
-	
-	

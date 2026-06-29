@@ -10,8 +10,6 @@ scenarios('../features/Feature/ui.feature')
 def home():
     with sync_playwright() as p:    
      browser = p.chromium.launch(headless=True)
-     #context = browser.new_context(record_video_dir="videos/")
-     #page = context.new_page()
      page = browser.new_page()
      home_page = HomePage(page)
      yield home_page
@@ -21,7 +19,6 @@ def home():
 @given('I navigate to the Amazon Home Page')
 def navigate_to_home_page(home):
     home.navigate_to_homepage()
-    print("Navigated----")
 
 
 @then('I should see navigation elements')
@@ -42,7 +39,7 @@ def verify_category_page(home):
 
 @when('I search for a product')
 def search_for_product(home):
-    home.search_for_product("mobile")
+    home.search_for_product()
 
 @then('I should see search results')
 def verify_search_results(home):
