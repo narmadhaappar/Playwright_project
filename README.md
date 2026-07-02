@@ -1,15 +1,36 @@
 # Playwright_project
 
-The framework covers:
-1. UI automation (Amazon e-commerce site)
-2. API Automation (Swagger Petstore)
-3. Designed using POM and Service Layer
-4. BDD Feature files
-5. Screenshots on Folder
+PLAYWRIGHT_PROJECT/
+│
+├── features/ 
+     └── api.feature
+     └── ui.feature               # Feature files (BDD scenarios in Gherkin)
+│
+├── Pages/                  # Page Object Models
+│   └── HomePage.py         # Example page class
+│
+├── step_defs/              # Step definitions linking Gherkin steps to code
+│   ├── api_steps.py
+│   └── ui_steps.py
+│
+├── utils/  
+|   ├── api_utils.py
+│   └── common_utils.py  
+|   ├── config.py
+│   └── data_generator.py              # Utility functions (helpers, configs, constants)
+│
+├── verification/           # Custom assertions & validation logic
+│
+├── videos/                 # Test execution recordings (Playwright videos)
+│
+├── conftest.py             # Pytest configuration & fixtures
+├── package-lock.json       # Dependency lock file
+└── README.md               # Project documentation
+
 
 Test Coverage
 UI Test
--HomePAge Validations
+-HomePage Validations
 -Category Navigation
 -Search Functionality
 

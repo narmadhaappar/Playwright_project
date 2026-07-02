@@ -27,7 +27,7 @@ def verify_navigation_elements(home):
 
 @then('I take screenshot of the full Page')
 def take_screenshot(home):
-    home.take_screenshot(home.page, 'full_page_screenshot.png')
+    home.take_screenshot(home.page, 'verification/full_page_screenshot.png')
 
 @when('I click on the Category menu')
 def click_category_menu(home):
